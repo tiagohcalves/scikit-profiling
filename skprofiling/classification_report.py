@@ -1,6 +1,8 @@
 from typing import List, Optional
 from itertools import cycle
+import warnings
 
+from IPython import display
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -8,62 +10,98 @@ from matplotlib import pyplot as plt
 from scipy import interp
 from sklearn import metrics
 
+from .utils import get_max_score, display_markdown
 
-def get_max_score(
-        metric_function, y_true: List[float], y_pred: List[float],
-        min_score: bool = False, with_values: bool = False
-) -> (float, float, Optional[List[float]], Optional[List[float]]):
-    thresholds = np.arange(0, 1, 0.01)
-    score_list = []
+warnings.filterwarnings("ignore")
 
-    max_th = thresholds[0]
-    max_score = np.inf if min_score else -np.inf
-
-    for th in thresholds:
-        y_pred_label = np.where(y_pred < th, 0, 1)
-        score_th = metric_function(y_true, y_pred_label)
-        score_list.append(score_th)
-
-        if (
-                (min_score and (score_th < max_score))
-                or
-                (not min_score and score_th > max_score)
-        ):
-            max_score = score_th
-            max_th = th
-
-    if with_values:
-        return max_score, max_th, score_list, thresholds
-
-    return max_score, max_th
+FIGSIZE_X = 10
+FIGSIZE_Y = 8
 
 
-def classification_report(y_true: List[float], y_pred: List[float], date_index: list = None) -> None:
-    print_static_metrics(y_pred, y_true)
+def plot_pr_curve(y_true: List[float], y_pred: List[float]) -> None:
+    pass
+
+
+def plot_f1_th(y_true: List[float], y_pred: List[float]) -> None:
+    pass
+
+
+def plot_acc_th(y_true: List[float], y_pred: List[float]) -> None:
+    pass
+
+
+def plot_confusion_matrix(y_true: List[float], y_pred: List[float]) -> None:
+    pass
+
+
+def plot_calibration(y_true: List[float], y_pred: List[float]) -> None:
+    pass
+
+
+def plot_metrics_over_time(y_true: List[float], y_pred: List[float], date_index: List) -> None:
+    pass
+
+
+def classification_report(y_true: List[float], y_pred: List[float], date_index: Optional[list] = None) -> None:
+    print_static_metrics(y_true, y_pred)
+
+    display_markdown("# Plots")
+    display_markdown("The plots shown here are meant to give insights about the distributions of the model")
+
     dist_score_plot(y_true, y_pred)
+    plot_roc_curve(y_true, y_pred)
+    plot_pr_curve(y_true, y_pred)
+    plot_f1_th(y_true, y_pred)
+    plot_acc_th(y_true, y_pred)
+    plot_confusion_matrix(y_true, y_pred)
+    plot_calibration(y_true, y_pred)
+
+    if date_index is not None:
+        plot_metrics_over_time(y_true, y_pred, date_index)
 
 
 def print_static_metrics(y_true: List[float], y_pred: List[float]) -> None:
+    display_markdown("# Statistical Metrics")
+    display_markdown("These are statistical metrics that show some quality of the model.")
+    display_markdown(
+        "Since some of the metrics are threshold dependent, "
+        "here is displayed the best value found by varying the threshold."
+    )
+
     metrics_dict = {
         "Area Under ROC Curve": [metrics.roc_auc_score(y_true, y_pred), np.nan],
         "F1-Score": get_max_score(metrics.f1_score, y_true, y_pred),
         "Accuracy": get_max_score(metrics.accuracy_score, y_true, y_pred),
         "Average Precision-Recall": [metrics.average_precision_score(y_true, y_pred), np.nan],
-        "Jaccard Score": get_max_score(metrics.jaccard_similarity_score, y_true, y_pred),
+        "Jaccard Score": get_max_score(metrics.jaccard_score, y_true, y_pred),
         "Humming Loss": get_max_score(metrics.accuracy_score, y_true, y_pred)
     }
 
+    display_markdown("<br>")
     metrics_df = pd.DataFrame(metrics_dict, index=["Best Value", "Best Threshold"]).transpose()
-    print(metrics_df)
+    display.display(metrics_df)
+
+    display_markdown("<br>")
     print(metrics.classification_report(y_true, np.round(y_pred)))
+    display_markdown("---")
 
 
 def dist_score_plot(y_true: List[float], y_pred: List[float]) -> None:
-    # TODO: allow multiclass
-    fig, ax = plt.subplots()
+    display_markdown("## Score Distribution")
+    display_markdown("This plot should give some clarity about how is the score distributed for each class.")
+    display_markdown("Usually, the more separated are the scores, the best the model is.")
+    display_markdown("Areas with high overlap represent non-confidant decisions.")
 
-    ax = sns.distplot(y_pred[y_true == 0], ax=ax)
-    ax = sns.distplot(y_pred[y_true == 1], ax=ax)
+    # TODO: parametrize fig_size
+    fig, ax = plt.subplots(figsize=(FIGSIZE_X, FIGSIZE_Y))
+
+    for class_id in np.unique(y_true):
+        ax = sns.distplot(y_pred[y_true == class_id], ax=ax, label=f"Class {class_id}")
+
+    ax.set_xlabel("Score")
+    ax.set_ylabel("Density")
+    ax.set_title("Score Distribution Plot")
+    ax.legend()
 
     plt.show()
 
@@ -86,7 +124,9 @@ def compute_roc(y_pred, y_true):
     return roc_auc, fpr, tpr
 
 
-def plot_roc_all(y_pred, y_true):
+def plot_roc_curve(y_true, y_pred):
+    display_markdown("## ROC Curve")
+
     if y_true.ndim == 1:
         roc_auc, fpr, tpr = compute_roc(y_pred.reshape(-1, 1), y_true.reshape(-1, 1))
     else:

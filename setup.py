@@ -18,7 +18,7 @@ setup(name='skprofiling',
       packages=['skprofiling'],
       install_requires=[
           'pandas',
-          'sklearn'
+          'scikit-learn', 'numpy', 'seaborn', 'matplotlib', 'scipy', 'IPython'
       ],
       zip_safe=False,
       test_suite='nose.collector',

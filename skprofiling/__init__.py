@@ -1,1 +1,1 @@
-from .base_estimator import BaseEstimator
+from .classification_report import classification_report
