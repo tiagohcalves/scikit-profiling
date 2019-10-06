@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="93d911bb-fc63-48b2-b982-c4a106899484" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notebooks/lib-testing-binary.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/lib-testing-binary.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/skprofiling/classification_report.py" beforeDir="false" afterPath="$PROJECT_DIR$/skprofiling/classification_report.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/01-binary_classification.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/skprofiling/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/skprofiling/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/skprofiling/profiler.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/skprofiling/tests/test_datapipe.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,24 +21,33 @@
         <entry file="file://$PROJECT_DIR$/skprofiling/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="38" selection-start-column="38" selection-end-column="38" />
+              <caret column="17" selection-start-column="17" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/skprofiling/profiler.py">
+        <entry file="file://$PROJECT_DIR$/setup.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="5" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="468">
+              <caret line="26" column="29" lean-forward="true" selection-start-line="26" selection-start-column="29" selection-end-line="26" selection-end-column="29" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="288">
+                <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/skprofiling/classification_report.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="830">
@@ -71,11 +81,13 @@
       <list>
         <option value="$PROJECT_DIR$/skprofiling/base_estimator.py" />
         <option value="$PROJECT_DIR$/skprofiling/profiler.py" />
-        <option value="$PROJECT_DIR$/skprofiling/__init__.py" />
         <option value="$PROJECT_DIR$/skprofiling/utils.py" />
         <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/skprofiling/classification_report.py" />
+        <option value="$PROJECT_DIR$/skprofiling/__init__.py" />
+        <option value="$PROJECT_DIR$/skprofiling/tests/test_datapipe.py" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -102,7 +114,23 @@
             <path>
               <item name="scikit-profiling" type="b2602c69:ProjectViewProjectNode" />
               <item name="scikit-profiling" type="462c0819:PsiDirectoryNode" />
+              <item name="examples" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="scikit-profiling" type="b2602c69:ProjectViewProjectNode" />
+              <item name="scikit-profiling" type="462c0819:PsiDirectoryNode" />
+              <item name="notebooks" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="scikit-profiling" type="b2602c69:ProjectViewProjectNode" />
+              <item name="scikit-profiling" type="462c0819:PsiDirectoryNode" />
               <item name="skprofiling" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="scikit-profiling" type="b2602c69:ProjectViewProjectNode" />
+              <item name="scikit-profiling" type="462c0819:PsiDirectoryNode" />
+              <item name="skprofiling" type="462c0819:PsiDirectoryNode" />
+              <item name="tests" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -184,23 +212,6 @@
     <entry file="file://$PROJECT_DIR$/skprofiling/data_pipe.py" />
     <entry file="file://$PROJECT_DIR$/skprofiling/base_estimator.py" />
     <entry file="file://$USER_HOME$/.PyCharm2018.3/system/python_stubs/715629073/builtins.py" />
-    <entry file="file://$PROJECT_DIR$/skprofiling/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="38" selection-start-column="38" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/skprofiling/profiler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="5" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/skprofiling/utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
@@ -218,13 +229,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="23" column="37" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/skprofiling/classification_report.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="830">
@@ -232,6 +236,50 @@
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/skprofiling/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="17" selection-start-column="17" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/skprofiling/tests/test_datapipe.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="648">
+          <caret line="36" column="8" lean-forward="true" selection-start-line="8" selection-end-line="36" selection-end-column="8" />
+          <folding>
+            <element signature="e#42#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/skprofiling/profiler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="26" column="29" lean-forward="true" selection-start-line="26" selection-start-column="29" selection-end-line="26" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="288">
+            <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
