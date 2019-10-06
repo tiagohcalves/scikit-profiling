@@ -6,6 +6,11 @@ def readme():
         return f.read()
 
 
+def requirements():
+    with open('requirements.txt') as f:
+        return f.readlines()
+
+
 setup(name='skprofiling',
       version='0.1',
       description='Profiling of machine learning models based on scikit-learning interface',
@@ -16,10 +21,7 @@ setup(name='skprofiling',
       author_email='tiagohcalves@gmail.com',
       license='MIT',
       packages=['skprofiling'],
-      install_requires=[
-          'pandas',
-          'scikit-learn', 'numpy', 'seaborn', 'matplotlib', 'scipy', 'IPython'
-      ],
+      install_requires=requirements(),
       zip_safe=False,
       test_suite='nose.collector',
       tests_require=['nose'])

@@ -19,35 +19,6 @@ FIGSIZE_X = 10
 FIGSIZE_Y = 8
 
 
-def plot_calibration(y_true: List[float], y_pred: List[float]) -> None:
-    display_markdown("## Probability Calibration Curve")
-
-    clf_score = metrics.brier_score_loss(y_true, y_pred, pos_label=y_true.max())
-    fraction_of_positives, mean_predicted_value = calibration.calibration_curve(y_true, y_pred, n_bins=10)
-
-    fig, ax = plt.subplots(2, 1, figsize=(FIGSIZE_X, FIGSIZE_Y))
-
-    ax[0].plot([0, 1], [0, 1], "k:", label="Perfectly calibrated")
-    ax[0].plot(mean_predicted_value, fraction_of_positives, "s-", label=f"Brier Score: {clf_score:0.2f}")
-    ax[1].hist(y_pred, range=(0, 1), bins=10, histtype="step", lw=2)
-
-    ax[0].set_ylabel("Fraction of positives")
-    ax[0].set_ylim([-0.05, 1.05])
-    ax[0].legend(loc="lower right")
-    ax[0].set_title('Calibration plots (reliability curve)')
-
-    ax[1].set_xlabel("Mean predicted value")
-    ax[1].set_ylabel("Count")
-    # ax[1].legend(loc="upper center", ncol=2)
-
-    plt.tight_layout()
-    plt.show()
-
-
-def plot_metrics_over_time(y_true: List[float], y_pred: List[float], date_index: List) -> None:
-    pass
-
-
 def classification_report(y_true: List[float], y_pred: List[float], date_index: Optional[list] = None) -> None:
     print_static_metrics(y_true, y_pred)
 
@@ -141,7 +112,7 @@ def plot_roc_curve(y_true, y_pred):
     display_markdown("Also, the shape of the curve indicates if the model is making more mistakes on false positives"
                      "or false negatives.")
 
-    if y_true.ndim == 1:
+    if np.array(y_true).ndim == 1:
         roc_auc, fpr, tpr = compute_roc(y_pred.reshape(-1, 1), y_true.reshape(-1, 1))
     else:
         roc_auc, fpr, tpr = compute_roc(y_pred, y_true)
@@ -194,6 +165,8 @@ def plot_roc_curve(y_true, y_pred):
     plt.legend(loc="lower right")
     plt.show()
 
+    display_markdown("Ref: https://scikit-learn.org/stable/auto_examples/model_selection/plot_roc.html")
+
 
 def plot_pr_curve(y_true: List[float], y_pred: List[float]) -> None:
     display_markdown("## PR Curve")
@@ -220,6 +193,8 @@ def plot_pr_curve(y_true: List[float], y_pred: List[float]) -> None:
     plt.title('Precision-Recall curve. Average Precision = {0:0.2f}'.format(average_precision))
     plt.show()
 
+    display_markdown("Ref: https://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html")
+
 
 def plot_th_impact(y_true: List[float], y_pred: List[float]) -> None:
     display_markdown("## Threshold Impact")
@@ -229,7 +204,8 @@ def plot_th_impact(y_true: List[float], y_pred: List[float]) -> None:
                      "requirement.")
 
     f1_score, max_th, score_list_f1, thresholds = get_max_score(metrics.f1_score, y_true, y_pred, with_values=True)
-    acc_score, max_th, score_list_acc, thresholds = get_max_score(metrics.accuracy_score, y_true, y_pred, with_values=True)
+    acc_score, max_th, score_list_acc, thresholds = get_max_score(metrics.accuracy_score, y_true, y_pred,
+                                                                  with_values=True)
 
     plt.figure(figsize=(FIGSIZE_X, FIGSIZE_Y))
     plt.plot(thresholds, score_list_f1, label="F1-Score")
@@ -242,3 +218,60 @@ def plot_th_impact(y_true: List[float], y_pred: List[float]) -> None:
     plt.title('Metrics by Threshold. Best F1-Score = {0:0.2f}'.format(f1_score))
     plt.legend()
     plt.show()
+
+def plot_calibration(y_true: List[float], y_pred: List[float]) -> None:
+    # TODO: Explain
+    display_markdown("## Probability Calibration Curve")
+
+    clf_score = metrics.brier_score_loss(y_true, y_pred, pos_label=max(y_true))
+    fraction_of_positives, mean_predicted_value = calibration.calibration_curve(y_true, y_pred, n_bins=10)
+
+    fig, ax = plt.subplots(2, 1, figsize=(FIGSIZE_X, FIGSIZE_Y))
+
+    ax[0].plot([0, 1], [0, 1], "k:", label="Perfectly calibrated")
+    ax[0].plot(mean_predicted_value, fraction_of_positives, "s-", label=f"Brier Score: {clf_score:0.2f}")
+    ax[1].hist(y_pred, range=(0, 1), bins=10, histtype="step", lw=2)
+
+    ax[0].set_ylabel("Fraction of positives")
+    ax[0].set_ylim([-0.05, 1.05])
+    ax[0].legend(loc="lower right")
+    ax[0].set_title('Calibration plots (reliability curve)')
+
+    ax[1].set_xlabel("Mean predicted value")
+    ax[1].set_ylabel("Count")
+    # ax[1].legend(loc="upper center", ncol=2)
+
+    plt.tight_layout()
+    plt.show()
+
+    display_markdown("Ref: https://scikit-learn.org/stable/auto_examples/calibration/"
+                     "plot_calibration_curve.html#sphx-glr-auto-examples-calibration-plot-calibration-curve-py")
+
+
+def get_rolling_scores(metric_function, df, window_size):
+    for i in range(window_size, df.shape[0]):
+        yield metric_function(df.iloc[i-window_size:i]["true"], np.round(df.iloc[i-window_size:i]["pred"]))
+
+
+def plot_metrics_over_time(y_true: List[float], y_pred: List[float], date_index: List) -> None:
+    display_markdown("## Metrics Over Time")
+
+    df = pd.DataFrame({"true": y_true, "pred": y_pred, "date": date_index})
+    df.sort_values("date", inplace=True)
+
+    window_size = min(df.shape[0], 10)
+    rolling_acc = list(get_rolling_scores(metrics.accuracy_score, df, window_size))
+    rolling_f1 = list(get_rolling_scores(metrics.f1_score, df, window_size))
+
+    plt.figure(figsize=(FIGSIZE_X, FIGSIZE_Y))
+
+    plt.plot(df["date"].iloc[window_size:], rolling_acc, label="Accuracy")
+    plt.plot(df["date"].iloc[window_size:], rolling_f1, label="F1-Score")
+
+    plt.xlabel("Date")
+    plt.ylabel("Accuracy")
+    plt.title("Metrics Over Time")
+    plt.legend()
+
+    plt.show()
+
