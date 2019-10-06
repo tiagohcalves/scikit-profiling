@@ -1,4 +1,4 @@
-# scikit-profiling
+# Scikit Profiling
 Profiling of machine learning models based on scikit-learning interface
 
 ## Examples
