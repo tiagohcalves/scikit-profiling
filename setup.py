@@ -12,7 +12,7 @@ def requirements():
 
 
 setup(name='skprofiling',
-      version='0.1',
+      version='0.1.2',
       description='Profiling of machine learning models based on scikit-learning interface',
       long_description=readme(),
       keywords='pandas machine learning profiling model',
